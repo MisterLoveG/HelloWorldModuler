@@ -1,0 +1,58 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+/** tá feio mas não sei consertar pois os plugins não são encontrados quando estão no build do app **/
+project("app"){ it->
+    it.apply plugin: 'com.android.application'
+    it.apply plugin: 'kotlin-android'
+    it.apply plugin: 'kotlin-android-extensions'
+    it.android {
+        compileSdkVersion 26
+        defaultConfig {
+            applicationId "com.example.rafael.mobile"
+            minSdkVersion 19
+            targetSdkVersion 26
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+    it.dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        compile 'com.android.support:appcompat-v7:26.1.0'
+        compile 'com.squareup.retrofit2:retrofit:2.3.0'
+        compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+        compile 'com.android.support.constraint:constraint-layout:1.0.2'
+        compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+        testCompile 'junit:junit:4.12'
+        androidTestCompile 'com.android.support.test:runner:1.0.1'
+        androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    }
+}
+task listrepos {
+    doLast {
+        println "Repositories:"
+        project.repositories.each { println "Name: " + it.name + "; url: " + it.url }
+   }
+}

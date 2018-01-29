@@ -1,3 +1,2 @@
-include 'server'
-include 'front'
+include 'server', 'front', 'mobile:app'
 

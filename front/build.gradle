@@ -1,0 +1,40 @@
+apply plugin: 'kotlin2js'
+
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+
+compileKotlin2Js {
+    kotlinOptions.sourceMap = true
+}
+
+task assembleWeb(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            println file.canonicalPath
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                (path.endsWith(".js") || path.endsWith(".html"))
+            }
+        })
+    }
+    from ("${projectDir}/build/classes/kotlin/main"){
+        include 'front*.js*'
+    }
+    from ("${projectDir}/build/resources/main"){
+        include '*.html'
+    }
+    into "${projectDir}/web"
+    dependsOn classes
+}
+
+assemble.dependsOn assembleWeb
