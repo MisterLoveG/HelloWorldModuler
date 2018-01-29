@@ -3,6 +3,4 @@
 build
 /mobile/build
 /mobile/.gradle
-/mobile/.idea/encodings.xml
-/mobile/.idea/modules.xml
-/mobile/.idea/libraries
+/mobile/.idea
